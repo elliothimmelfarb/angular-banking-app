@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Banking App</title>
+
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/themes/simplex-theme-bootstrap.min.css">
+  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/ngstorage/ngStorage.min.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="main.js"></script>
+</head>
+<body ng-app='bankingApp'>
+
+  <div class="container-fluid" ng-controller='mainCtrl'>
+    <h1 class="text-center">Banking App</h1>
+
+    <div ng-submit='getStarted(startMoney)' class="startArea" ng-show='$storage.started === false'>
+      <h3>Let's get started!</h3>
+      <p>Input how much money you start with in your account:</p>
+      <form>
+        <input ng-model='startMoney' type="number" min=0 placeholder="How much?" required>
+        <button class="btn btn-default">Get Started!</button>
+        <div>
+          <p>{{startMoney | currency}}</p>
+        </div>
+      </form>
+    </div>
+
+    <div ng-show='$storage.started === true' class="afterStarted">
+
+      <div class="balanceArea text-center">
+        <p>Current Balance:</p>
+        <h2 class='balance'>{{$storage.balance | currency}}</h2>
+      </div>
+
+      <div ng-submit='addTransaction(transac)' class="addTransactionArea text-center">
+        <form class="form-inline">
+          <div class="form-group">
+            <!-- <label class="sr-only">Description</label> -->
+            <input ng-model='transac.description' type="text" class="form-control" placeholder="Description" required>
+          </div>
+          <div class='form-group'>
+            <input ng-model='transac.date' class='form-control' type="date" required>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <!-- <label class="sr-only">Amount</label> -->
+              <input ng-model='transac.amount' type="number" step='.01' min=0 class="form-control" placeholder="Amount" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <select ng-model='transac.type' class='form-control' placeholder='Type'>
+              <option value="credit">Credit</option>
+              <option value="debit">Debit</option>
+            </select>
+          </div>
+          <button class="btn btn-default">Add Transaction</button>
+        </form>
+      </div>
+
+      <div class="tableArea">
+        <table class="table table-bordered">
+          <thead>
+            <tr class='info'>
+              <th>Description</th>
+              <th>Date</th>
+              <th>Credit</th>
+              <th>Debit</th>
+              <th>New Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat='transaction in $storage.transactions track by $index'>
+              <td>{{transaction.description}}</td>
+              <td>{{transaction.date | date:MM/dd/yyyy}}</td>
+              <td>{{transaction.credit | currency}}</td>
+              <td>{{transaction.debit | currency}}</td>
+              <td>{{transaction.newBalance | currency}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "simplereddit",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Cade Nichols <cade@cadenichols.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/CodingHouseFI/simplereddit",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.7",
+    "bootstrap": "^3.3.6",
+    "ngstorage": "^0.3.10",
+    "font-awesome": "fontawesome#^4.6.3"
+  }
+}

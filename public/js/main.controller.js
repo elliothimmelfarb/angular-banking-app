@@ -18,7 +18,6 @@ function MainController($localStorage, transactionService, moment) {
   }
 
   function getStarted(money) {
-    debugger;
     vm.localStorage.started = true;
     vm.localStorage.balance = money;
     vm.localStorage.startMoney = money;
@@ -48,7 +47,6 @@ function MainController($localStorage, transactionService, moment) {
         vm.totalDebit += (trans.debit || 0);
       }
     });
-    debugger;
     vm.localStorage.balance = vm.localStorage.startMoney + vm.totalCredit + vm.totalDebit;
   }
 

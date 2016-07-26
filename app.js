@@ -1,13 +1,10 @@
-'use strict';
-
 const PORT = process.env.PORT || 8000;
 
 const express = require('express');
 const morgan = require('morgan');
-const moment = require('moment');
 const bodyParser = require('body-parser');
 
-let app = express();
+const app = express();
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));

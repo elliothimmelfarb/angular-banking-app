@@ -24,16 +24,16 @@
 
   <div class="container-fluid" ng-controller='MainController as vm'>
     <h1 class="text-center">Banking App</h1>
-    <button ng-click='reset()' ng-show='vm.storage.started' class="btn btn-danger reset">Start Over</button>
+    <button ng-click='vm.reset()' ng-show='vm.storage.started' class="btn btn-danger reset">Start Over</button>
 
-    <div ng-submit='vm.getStarted(startMoney)' class="startArea" ng-show='vm.storage.started === false'>
+    <div ng-submit='vm.getStarted(vm.startMoney)' class="startArea" ng-show='vm.storage.started === false'>
       <h3>Let's get started!</h3>
       <p>Input how much money you start with in your account:</p>
       <form>
         <input ng-model='vm.startMoney' type="number" min=0 placeholder="How much?" required>
         <button class="btn btn-default">Get Started!</button>
         <div>
-          <p>{{startMoney | currency}}</p>
+          <p>{{vm.startMoney | currency}}</p>
         </div>
       </form>
     </div>
@@ -42,7 +42,7 @@
 
       <div class="balanceArea text-center">
         <p class='balanceHeader'>Current Balance:</p>
-        <h2 class='balance'>{{vm.storage.balance | currency}}</h2>
+        <h2 class='balance'>{{vm.localStorage.balance | currency}}</h2>
       </div>
 
 <!-- Transaction Form -->

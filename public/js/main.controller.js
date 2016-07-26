@@ -1,9 +1,9 @@
 angular.module('myApp')
-.controller('MainController', MainController);
+  .controller('MainController', MainController);
 
 function MainController($localStorage, transactionService, moment) {
   const vm = this;
-  const localStorage = $localStorage;
+  vm.localStorage = $localStorage;
   vm.getStarted = getStarted;
   vm.reset = reset;
   vm.addTransaction = addTransaction;
@@ -13,14 +13,15 @@ function MainController($localStorage, transactionService, moment) {
   initialize();
 
   function reset() {
-    localStorage.$reset();
+    vm.localStorage.$reset();
     initialize();
   }
 
   function getStarted(money) {
-    localStorage.started = true;
-    localStorage.balance = money;
-    localStorage.startMoney = money;
+    debugger;
+    vm.localStorage.started = true;
+    vm.localStorage.balance = money;
+    vm.localStorage.startMoney = money;
     vm.startMoney = '';
   }
 
@@ -37,21 +38,22 @@ function MainController($localStorage, transactionService, moment) {
 
   // ///// HELPER FUNCTIONS /////////////
   function updateTotals() {
-    localStorage.balance = $localStorage.startMoney;
+    vm.localStorage.balance = vm.localStorage.startMoney;
     vm.totalCredit = 0;
     vm.totalDebit = 0;
-    localStorage.transactions.forEach(trans => {
+    vm.localStorage.transactions.forEach(trans => {
       if (moment().isAfter(moment(trans.date))) {
         trans.datePassed = true; // eslint-disable-line no-param-reassign
         vm.totalCredit += (trans.credit || 0);
         vm.totalDebit += (trans.debit || 0);
       }
     });
-    localStorage.balance = $localStorage.startMoney + vm.totalCredit + vm.totalDebit;
+    debugger;
+    vm.localStorage.balance = vm.localStorage.startMoney + vm.totalCredit + vm.totalDebit;
   }
 
   function initialize() {
-    vm.storage = $localStorage.$default({
+    vm.storage = vm.localStorage.$default({
       started: false,
       transactions: [],
       currentId: 1,
@@ -59,6 +61,6 @@ function MainController($localStorage, transactionService, moment) {
     vm.transac = {
       type: 'debit',
     };
-    if (localStorage.transactions.length) updateTotals();
+    if (vm.localStorage.transactions.length) updateTotals();
   }
 }

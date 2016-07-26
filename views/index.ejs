@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Banking App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/themes/simplex-theme-bootstrap.min.css">
@@ -13,6 +14,7 @@
   <script src="/bower_components/ngstorage/ngStorage.min.js"></script>
 
   <script src="/bower_components/moment/min/moment.min.js"></script>
+  <script src="/bower_components/angular-moment/angular-moment.min.js"></script>
 
   <script src="/js/module.js"></script>
   <script src="/js/controllers.js"></script>
@@ -40,14 +42,15 @@
     <div ng-show='storage.started === true' class="afterStarted">
 
       <div class="balanceArea text-center">
-        <p>Current Balance:</p>
+        <p class='balanceHeader'>Current Balance:</p>
         <h2 class='balance'>{{storage.balance | currency}}</h2>
       </div>
 
-      <div ng-submit='addTransaction(transac, type)' class="addTransactionArea text-center">
-        <form class="form-inline">
+<!-- Transaction Form -->
+      <div class="addTransactionArea text-center">
+        <form ng-submit='addTransaction(transac, type)' class="form-inline">
           <div class="form-group">
-            <!-- <label class="sr-only">Description</label> -->
+            <label class="sr-only">Description</label>
             <input ng-model='transac.description' type="text" class="form-control" placeholder="Description" required>
           </div>
           <div class='form-group'>
@@ -56,12 +59,12 @@
           <div class="form-group">
             <div class="input-group">
               <div class="input-group-addon">$</div>
-              <!-- <label class="sr-only">Amount</label> -->
+              <label class="sr-only">Amount</label>
               <input ng-model='transac.amount' type="number" step='.01' min=0 class="form-control" placeholder="Amount" required>
             </div>
           </div>
-          <div class="form-group">
-            <select ng-model='type' class='form-control' value='credit'>
+          <div class="form-group selectDiv">
+            <select ng-model='transac.type' class='form-control' value='credit'>
               <option value="credit">Credit</option>
               <option value="debit">Debit</option>
             </select>
@@ -69,33 +72,74 @@
           <button class="btn btn-default">Add Transaction</button>
         </form>
       </div>
+<!-- END Transaction Form -->
 
       <div class="tableArea">
         <table class="table table-hover table-bordered">
           <thead>
             <tr class='info'>
-              <th class=text-center>Description</th>
-              <th class=text-center>Date</th>
-              <th class=text-center>Credit</th>
-              <th class=text-center>Debit</th>
-              <th class=text-center>New Balance</th>
+              <th class='text-center idTh'>
+                <a href="#" ng-click='sortType = "id"; sortReverse = !sortReverse'>
+                  ID
+                  <span ng-show='sortType === "id" && !sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='sortType === "id" && sortReverse' class='fa fa-caret-up'></span>
+                </a>
+              </th>
+              <th class=text-center>
+                <a href="#" ng-click='sortType = "description"; sortReverse = !sortReverse'>
+                  Description
+                  <span ng-show='sortType === "description" && !sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='sortType === "description" && sortReverse' class='fa fa-caret-up'></span>
+                </a>
+              </th>
+              <th class='text-center'>
+                <a href="#" ng-click='sortType = "date"; sortReverse = !sortReverse'>
+                  Date
+                  <span ng-show='sortType === "date" && !sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='sortType === "date" && sortReverse' class='fa fa-caret-up'></span>
+                </a>
+              </th>
+              <th class=text-center>
+                <a href="#" ng-click='sortType = "credit"; sortReverse = !sortReverse'>
+                  Credit
+                  <span ng-show='sortType === "credit" && !sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='sortType === "credit" && sortReverse' class='fa fa-caret-up'></span>
+                </a>
+              </th>
+              <th class=text-center>
+                <a href="#" ng-click='sortType = "debit"; sortReverse = !sortReverse'>
+                  Debit
+                  <span ng-show='sortType === "debit" && !sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='sortType === "debit" && sortReverse' class='fa fa-caret-up'></span>
+                </a>
+              </th>
+              <th class=text-center>
+                <a href="#" ng-click='sortType = "newBalance"; sortReverse = !sortReverse'>
+                  New Balance
+                  <span ng-show='sortType === "newBalance" && !sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='sortType === "newBalance" && sortReverse' class='fa fa-caret-up'></span>
+                </a>
+              </th>
             </tr>
-            <tr class='warning'>
-              <th><input ng-model='search.description' type="text" placeholder='Search'></th>
+            <tr class='info'>
+              <td class=text-center>#</td>
+              <td><input ng-model='search.description' type="text" placeholder='Filter Descriptions'></td>
               <!-- TODO: fix filter by date -->
-              <th><input ng-model='search.date' type="text" placeholder='Filter by Date'</th>
+              <td class='dateCol'><input ng-model='search.date' type="text" placeholder='Filter Dates'</td>
               <th class=text-center>{{totalCredit | currency}}</th>
               <th class=text-center>{{totalDebit | currency}}</th>
-              <th></th>
+              <td></td>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat='transaction in storage.transactions | filter:{description: search.description, date: search.date} track by $index'>
+            <tr ng-repeat='transaction in storage.transactions | filter:{description:search.description, date:search.date} | orderBy:sortType:sortReverse track by $index'>
+              <td class=text-center>{{transaction.id}}</td>
               <td>{{transaction.description}}</td>
-              <td>{{transaction.date}}</td>
+              <td>{{transaction.date | date:mediumDate}}</td>
               <td class=text-right>{{transaction.credit | currency}}</td>
               <td class=text-right>{{transaction.debit | currency}}</td>
-              <td class=text-right>{{transaction.newBalance | currency}}</td>
+              <td ng-hide='transaction.datePassed' class='text-right'><em>Future Transaction</em></td>
+              <td ng-show='transaction.datePassed' class=text-right>{{transaction.newBalance | currency}}</td>
             </tr>
           </tbody>
         </table>

@@ -1,4 +1,4 @@
 'use strict';
 
 
-angular.module('myApp', ['ngStorage']);
+angular.module('myApp', ['ngStorage', 'angularMoment']);

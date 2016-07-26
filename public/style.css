@@ -4,3 +4,23 @@
   right: 1px;
   padding: 4px;
 }
+
+.idTh {
+  width: 43px;
+}
+
+.addTransactionArea {
+  margin-bottom: 9px;
+}
+
+.balance {
+  margin-top: -7px;
+}
+
+.balanceHeader {
+  margin-top: 32px;
+}
+
+a {
+  color: #28265f;
+}

@@ -17,7 +17,6 @@
   ],
   "dependencies": {
     "angular": "^1.5.7",
-    "bootstrap": "^3.3.6",
     "ngstorage": "^0.3.10",
     "font-awesome": "fontawesome#^4.6.3",
     "moment": "^2.13.0",

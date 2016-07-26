@@ -17,21 +17,21 @@
   <script src="/bower_components/angular-moment/angular-moment.min.js"></script>
 
   <script src="/js/module.js"></script>
-  <script src="/js/controllers.js"></script>
+  <script src="/js/main.controller.js"></script>
   <script src="/js/services.js"></script>
 
 </head>
 <body ng-app='myApp'>
 
-  <div class="container-fluid" ng-controller='mainCtrl'>
+  <div class="container-fluid" ng-controller='MainController as vm'>
     <h1 class="text-center">Banking App</h1>
-    <button ng-click='reset()' ng-show='storage.started' class="btn btn-danger reset">Start Over</button>
+    <button ng-click='reset()' ng-show='vm.storage.started' class="btn btn-danger reset">Start Over</button>
 
-    <div ng-submit='getStarted(startMoney)' class="startArea" ng-show='storage.started === false'>
+    <div ng-submit='vm.getStarted(startMoney)' class="startArea" ng-show='vm.storage.started === false'>
       <h3>Let's get started!</h3>
       <p>Input how much money you start with in your account:</p>
       <form>
-        <input ng-model='startMoney' type="number" min=0 placeholder="How much?" required>
+        <input ng-model='vm.startMoney' type="number" min=0 placeholder="How much?" required>
         <button class="btn btn-default">Get Started!</button>
         <div>
           <p>{{startMoney | currency}}</p>
@@ -39,32 +39,32 @@
       </form>
     </div>
 
-    <div ng-show='storage.started === true' class="afterStarted">
+    <div ng-show='vm.storage.started === true' class="afterStarted">
 
       <div class="balanceArea text-center">
         <p class='balanceHeader'>Current Balance:</p>
-        <h2 class='balance'>{{storage.balance | currency}}</h2>
+        <h2 class='balance'>{{vm.storage.balance | currency}}</h2>
       </div>
 
 <!-- Transaction Form -->
       <div class="addTransactionArea text-center">
-        <form ng-submit='addTransaction(transac, type)' class="form-inline">
+        <form ng-submit='vm.addTransaction(vm.transac)' class="form-inline">
           <div class="form-group">
             <label class="sr-only">Description</label>
-            <input ng-model='transac.description' type="text" class="form-control" placeholder="Description" required>
+            <input ng-model='vm.transac.description' type="text" class="form-control" placeholder="Description" required>
           </div>
           <div class='form-group'>
-            <input ng-model='transac.date' class='form-control' type="date" required>
+            <input ng-model='vm.transac.date' class='form-control' type="date" required>
           </div>
           <div class="form-group">
             <div class="input-group">
               <div class="input-group-addon">$</div>
               <label class="sr-only">Amount</label>
-              <input ng-model='transac.amount' type="number" step='.01' min=0 class="form-control" placeholder="Amount" required>
+              <input ng-model='vm.transac.amount' type="number" step='.01' min=0 class="form-control" placeholder="Amount" required>
             </div>
           </div>
           <div class="form-group selectDiv">
-            <select ng-model='transac.type' class='form-control' value='credit'>
+            <select ng-model='vm.transac.type' class='form-control' value='credit'>
               <option value="credit">Credit</option>
               <option value="debit">Debit</option>
             </select>
@@ -79,60 +79,60 @@
           <thead>
             <tr class='info'>
               <th class='text-center idTh'>
-                <a href="#" ng-click='sortType = "id"; sortReverse = !sortReverse'>
+                <a href="#" ng-click='vm.sortType = "id"; vm.sortReverse = !vm.sortReverse'>
                   ID
-                  <span ng-show='sortType === "id" && !sortReverse' class='fa fa-caret-down'></span>
-                  <span ng-show='sortType === "id" && sortReverse' class='fa fa-caret-up'></span>
+                  <span ng-show='vm.sortType === "id" && !vm.sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='vm.sortType === "id" && vm.sortReverse' class='fa fa-caret-up'></span>
                 </a>
               </th>
               <th class=text-center>
-                <a href="#" ng-click='sortType = "description"; sortReverse = !sortReverse'>
+                <a href="#" ng-click='vm.sortType = "description"; vm.sortReverse = !vm.sortReverse'>
                   Description
-                  <span ng-show='sortType === "description" && !sortReverse' class='fa fa-caret-down'></span>
-                  <span ng-show='sortType === "description" && sortReverse' class='fa fa-caret-up'></span>
+                  <span ng-show='vm.sortType === "description" && !vm.sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='vm.sortType === "description" && vm.sortReverse' class='fa fa-caret-up'></span>
                 </a>
               </th>
               <th class='text-center'>
-                <a href="#" ng-click='sortType = "date"; sortReverse = !sortReverse'>
+                <a href="#" ng-click='vm.sortType = "date"; vm.sortReverse = !vm.sortReverse'>
                   Date
-                  <span ng-show='sortType === "date" && !sortReverse' class='fa fa-caret-down'></span>
-                  <span ng-show='sortType === "date" && sortReverse' class='fa fa-caret-up'></span>
+                  <span ng-show='vm.sortType === "date" && !vm.sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='vm.sortType === "date" && vm.sortReverse' class='fa fa-caret-up'></span>
                 </a>
               </th>
               <th class=text-center>
-                <a href="#" ng-click='sortType = "credit"; sortReverse = !sortReverse'>
+                <a href="#" ng-click='vm.sortType = "credit"; vm.sortReverse = !vm.sortReverse'>
                   Credit
-                  <span ng-show='sortType === "credit" && !sortReverse' class='fa fa-caret-down'></span>
-                  <span ng-show='sortType === "credit" && sortReverse' class='fa fa-caret-up'></span>
+                  <span ng-show='vm.sortType === "credit" && !vm.sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='vm.sortType === "credit" && vm.sortReverse' class='fa fa-caret-up'></span>
                 </a>
               </th>
               <th class=text-center>
-                <a href="#" ng-click='sortType = "debit"; sortReverse = !sortReverse'>
+                <a href="#" ng-click='vm.sortType = "debit"; vm.sortReverse = !vm.sortReverse'>
                   Debit
-                  <span ng-show='sortType === "debit" && !sortReverse' class='fa fa-caret-down'></span>
-                  <span ng-show='sortType === "debit" && sortReverse' class='fa fa-caret-up'></span>
+                  <span ng-show='vm.sortType === "debit" && !vm.sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='vm.sortType === "debit" && vm.sortReverse' class='fa fa-caret-up'></span>
                 </a>
               </th>
               <th class=text-center>
-                <a href="#" ng-click='sortType = "newBalance"; sortReverse = !sortReverse'>
+                <a href="#" ng-click='vm.sortType = "newBalance"; vm.sortReverse = !vm.sortReverse'>
                   New Balance
-                  <span ng-show='sortType === "newBalance" && !sortReverse' class='fa fa-caret-down'></span>
-                  <span ng-show='sortType === "newBalance" && sortReverse' class='fa fa-caret-up'></span>
+                  <span ng-show='vm.sortType === "newBalance" && !vm.sortReverse' class='fa fa-caret-down'></span>
+                  <span ng-show='vm.sortType === "newBalance" && vm.sortReverse' class='fa fa-caret-up'></span>
                 </a>
               </th>
             </tr>
             <tr class='info'>
               <td class=text-center>#</td>
-              <td><input ng-model='search.description' type="text" placeholder='Filter Descriptions'></td>
+              <td><input ng-model='vm.search.description' type="text" placeholder='Filter Descriptions'></td>
               <!-- TODO: fix filter by date -->
-              <td class='dateCol'><input ng-model='search.date' type="text" placeholder='Filter Dates'</td>
+              <td class='dateCol'><input ng-model='vm.search.date' type="text" placeholder='Filter Dates'</td>
               <th class=text-center>{{totalCredit | currency}}</th>
               <th class=text-center>{{totalDebit | currency}}</th>
               <td></td>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat='transaction in storage.transactions | filter:{description:search.description, date:search.date} | orderBy:sortType:sortReverse track by $index'>
+            <tr ng-repeat='transaction in vm.storage.transactions | filter:{description:vm.search.description, date:vm.search.date} | orderBy:vm.sortType:vm.sortReverse track by $index'>
               <td class=text-center>{{transaction.id}}</td>
               <td>{{transaction.description}}</td>
               <td>{{transaction.date | date:mediumDate}}</td>

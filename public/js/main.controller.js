@@ -51,7 +51,6 @@ function MainController($localStorage, transactionService, moment) {
   }
 
   function initialize() {
-    if (localStorage.transactions.length) updateTotals();
     vm.storage = $localStorage.$default({
       started: false,
       transactions: [],
@@ -60,6 +59,6 @@ function MainController($localStorage, transactionService, moment) {
     vm.transac = {
       type: 'debit',
     };
-    updateTotals();
+    if (localStorage.transactions.length) updateTotals();
   }
 }

@@ -6,6 +6,7 @@
 - This app is persistent. Your data is stored in local storage.
 
 - This app can also be used as a real money tracker.
+
 ### Have fun with your pretend money! You can buy whatever you always wanted.
 
 ## Technologies:

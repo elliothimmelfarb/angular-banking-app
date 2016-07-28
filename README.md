@@ -1,4 +1,6 @@
 # Angular Pretend Money Tracker
+- This is a refactored, early project of mine
+
 - Choose an amount of money to start out with, the add debit or credit transactions and watch your pretend money fluctuate.
 
 - If the date of the transaction has not yet passed, the transaction will be shown as a *future transaction* which will not effect your balance. After the date passes, the changes to your pretend account will occur.
@@ -11,6 +13,8 @@
 
 ## Technologies:
 - Angular 1
+- Node
+- Express
 - Bootstrap
 - MomentJS
 

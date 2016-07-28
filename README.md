@@ -15,3 +15,5 @@
 - MomentJS
 
 ### This code is in full compliance with the [Airbnb ES6 Style Guide](https://github.com/airbnb/javascript) and [John Papa's Angular 1 Style Guide](https://github.com/johnpapa/angular-styleguide/tree/master/a1)
+
+## [Demo](https://pure-retreat-72972.herokuapp.com/#)
